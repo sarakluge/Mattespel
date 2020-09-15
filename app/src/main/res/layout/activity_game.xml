@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#9AB678"
+    tools:context=".GameActivity">
+
+    <TextView
+        android:id="@+id/textViewP2"
+        android:layout_width="135dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="16dp"
+        android:background="#F1EBEB"
+        android:fontFamily="casual"
+        android:foregroundTint="#FFFFFF"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="25dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/view2"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textViewP1"
+        android:layout_width="135dp"
+        android:layout_height="35dp"
+        android:layout_marginTop="16dp"
+        android:background="#F8F5F5"
+        android:fontFamily="casual"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="25dp"
+        app:layout_constraintEnd_toStartOf="@+id/view2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/instruktionTextView"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
+        android:background="#F8F5F5"
+        android:fontFamily="casual"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="wrap_content"
+        android:layout_height="2dp"
+        android:layout_marginTop="230dp"
+        android:background="#FFFFFF"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view2"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:background="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="@+id/view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/hundredTextView2"
+        android:layout_width="58dp"
+        android:layout_height="68dp"
+        android:background="#EFE590"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tenTextView2"
+        app:layout_constraintEnd_toStartOf="@+id/tenTextView2" />
+
+    <TextView
+        android:id="@+id/numTextView"
+        android:layout_width="106dp"
+        android:layout_height="143dp"
+        android:layout_margin="4dp"
+        android:background="#FFFFFF"
+        android:fontFamily="sans-serif"
+        android:textAlignment="center"
+        android:textColor="#000000"
+        android:textSize="110dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/instruktionTextView" />
+
+    <Button
+        android:id="@+id/cardButton"
+        android:layout_width="163dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:onClick="cardButtonPressed"
+        android:text="ta ett kort"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/numTextView" />
+
+    <Button
+        android:id="@+id/hundredButton"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:background="#EFE590"
+        android:onClick="hundredButton"
+        android:text="Hundratal"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tenButton"
+        app:layout_constraintEnd_toStartOf="@+id/tenButton"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/tenButton"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:background="#DF9F9F"
+        android:onClick="tenButton"
+        android:text="tiotal"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/numTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/instruktionTextView" />
+
+    <Button
+        android:id="@+id/singleButton"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:background="#8BC3E8"
+        android:onClick="singleButton"
+        android:text="ental"
+        android:textSize="18sp"
+        android:visibility="invisible"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tenButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tenButton" />
+
+    <TextView
+        android:id="@+id/tenTextView1"
+        android:layout_width="58dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="30dp"
+        android:background="#DF9F9F"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toStartOf="@+id/view2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewP1" />
+
+    <TextView
+        android:id="@+id/hundredTextView1"
+        android:layout_width="58dp"
+        android:layout_height="68dp"
+        android:background="#EFE590"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tenTextView1"
+        app:layout_constraintEnd_toStartOf="@+id/tenTextView1" />
+
+    <TextView
+        android:id="@+id/singleTextView"
+        android:layout_width="58dp"
+        android:layout_height="68dp"
+        android:background="#8BC3E8"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tenTextView1"
+        app:layout_constraintStart_toEndOf="@+id/tenTextView1" />
+
+    <TextView
+        android:id="@+id/singleTextView2"
+        android:layout_width="58dp"
+        android:layout_height="68dp"
+        android:background="#8BC3E8"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintBaseline_toBaselineOf="@+id/tenTextView2"
+        app:layout_constraintStart_toEndOf="@+id/tenTextView2" />
+
+    <TextView
+        android:id="@+id/tenTextView2"
+        android:layout_width="58dp"
+        android:layout_height="68dp"
+        android:layout_marginTop="30dp"
+        android:background="#DF9F9F"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        app:autoSizeTextType="uniform"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/view2"
+        app:layout_constraintTop_toBottomOf="@+id/textViewP2" />
+</androidx.constraintlayout.widget.ConstraintLayout>
