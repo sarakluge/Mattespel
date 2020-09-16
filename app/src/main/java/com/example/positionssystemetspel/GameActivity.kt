@@ -1,11 +1,11 @@
 package com.example.positionssystemetspel
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
-import kotlinx.android.synthetic.main.activity_game.*
 
 class GameActivity : AppCompatActivity() {
 
@@ -28,6 +28,8 @@ class GameActivity : AppCompatActivity() {
     var currentPlayer = 1
     var counter = 0
     var random = 0
+    var numberP1 = 0
+    var numberP2 = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,10 +54,49 @@ class GameActivity : AppCompatActivity() {
         singleText1 = findViewById(R.id.singleTextView)
         singleText2 = findViewById(R.id.singleTextView2)
 
+
+    }
+    fun startEndAvtivity() {
+        if(counter == 6){
+            sumNumberP1()
+            sumNumberP2()
+            val intent = Intent(this, endActivity::class.java)
+
+            intent.putExtra("winner", getWinner())
+            startActivity(intent)
+        }
+    }
+    fun getWinner(): String{
+        var winner = ""
+        if(sumNumberP1() == sumNumberP2()) {
+            winner = "Det blev oavgjort"
+        } else if(sumNumberP1() > sumNumberP2()) {
+            winner = "$name1 vann denna omgång"
+        } else if(sumNumberP1() < sumNumberP2()) {
+            winner = "$name2 vann denna omgång"
+        }
+        return winner
+    }
+
+    fun sumNumberP2(): Int{
+        var hundredInt2 = hundredText2.text.toString().toInt() * 100
+        var tenInt2 = tenText2.text.toString().toInt() * 10
+        var singleInt2 = hundredText2.text.toString().toInt()
+        numberP2 = hundredInt2 + tenInt2 + singleInt2
+        return numberP2
+    }
+
+    fun sumNumberP1(): Int{
+        var hundredInt1 = hundredText1.text.toString().toInt() * 100
+        var tenInt1 = tenText1.text.toString().toInt() * 10
+        var singleInt1 = hundredText1.text.toString().toInt()
+        numberP1 = hundredInt1 + tenInt1 + singleInt1
+        return numberP1
     }
 
 
     fun cardButtonPressed (view: View) {
+        counter ++
         random = (0..9).random()
         cardView.text = random.toString()
         instTextView.text = "Välj vilken plats siffran ska ha"
@@ -64,6 +105,28 @@ class GameActivity : AppCompatActivity() {
         tenButton.visibility = View.VISIBLE
         singleButton.visibility = View.VISIBLE
 
+        if(currentPlayer == 1) {
+            if(hundredText1.text != ""){
+                hundredButton.visibility = View.INVISIBLE
+            }
+            if(tenText1.text != ""){
+                tenButton.visibility = View.INVISIBLE
+            }
+            if(singleText1.text != ""){
+                singleButton.visibility = View.INVISIBLE
+            }
+
+        } else if(currentPlayer == 2) {
+            if (hundredText2.text != "") {
+                hundredButton.visibility = View.INVISIBLE
+            }
+            if (tenText2.text != "") {
+                tenButton.visibility = View.INVISIBLE
+            }
+            if (singleText2.text != "") {
+                singleButton.visibility = View.INVISIBLE
+            }
+        }
     }
 
     fun hundredButton (view: View) {
@@ -76,9 +139,12 @@ class GameActivity : AppCompatActivity() {
             instTextView.text = "$name1's tur, ta ett kort"
             currentPlayer = 1
         }
-        hundredButton.visibility = View.INVISIBLE
-        tenButton.visibility = View.INVISIBLE
-        singleButton.visibility = View.INVISIBLE
+
+        startEndAvtivity()
+        //hundredButton.visibility = View.INVISIBLE
+        //tenButton.visibility = View.INVISIBLE
+        //singleButton.visibility = View.INVISIBLE
+
     }
 
     fun tenButton (view: View) {
@@ -95,9 +161,11 @@ class GameActivity : AppCompatActivity() {
         hundredButton.visibility = View.INVISIBLE
         tenButton.visibility = View.INVISIBLE
         singleButton.visibility = View.INVISIBLE
+
+        startEndAvtivity()
     }
 
-    fun singleButton (view: View) {
+    fun singleButton(view: View) {
         if(currentPlayer == 1) {
             singleText1.text = random.toString()
             instTextView.text = "$name2's tur, ta ett kort"
@@ -110,5 +178,7 @@ class GameActivity : AppCompatActivity() {
         hundredButton.visibility = View.INVISIBLE
         tenButton.visibility = View.INVISIBLE
         singleButton.visibility = View.INVISIBLE
+
+        startEndAvtivity()
     }
 }
