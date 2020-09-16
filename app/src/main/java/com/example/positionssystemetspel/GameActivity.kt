@@ -42,7 +42,7 @@ class GameActivity : AppCompatActivity() {
         p1TextView.text = name1
         p2TextView.text = name2
         cardView = findViewById(R.id.numTextView)
-        cardButton = findViewById<Button>(R.id.cardButton)
+        cardButton = findViewById(R.id.cardButton)
         instTextView = findViewById(R.id.instruktionTextView)
         hundredButton = findViewById(R.id.hundredButton)
         tenButton = findViewById(R.id.tenButton)
@@ -53,6 +53,8 @@ class GameActivity : AppCompatActivity() {
         tenText2 = findViewById(R.id.tenTextView2)
         singleText1 = findViewById(R.id.singleTextView)
         singleText2 = findViewById(R.id.singleTextView2)
+
+        instTextView.text = "$name1's tur, ta ett kort"
 
 
     }
@@ -141,9 +143,9 @@ class GameActivity : AppCompatActivity() {
         }
 
         startEndAvtivity()
-        //hundredButton.visibility = View.INVISIBLE
-        //tenButton.visibility = View.INVISIBLE
-        //singleButton.visibility = View.INVISIBLE
+        hundredButton.visibility = View.INVISIBLE
+        tenButton.visibility = View.INVISIBLE
+        singleButton.visibility = View.INVISIBLE
 
     }
 

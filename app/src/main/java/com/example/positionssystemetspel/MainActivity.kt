@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity() {
         player1 = findViewById(R.id.player1Text)
         player2 = findViewById(R.id.player2Text)
 
-        var intent = Intent(this, GameActivity::class.java)
+        val intent = Intent(this, GameActivity::class.java)
 
         intent.putExtra("player1Name", player1.text.toString())
         intent.putExtra("player2Name", player2.text.toString())
