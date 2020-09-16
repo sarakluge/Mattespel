@@ -129,6 +129,8 @@ class GameActivity : AppCompatActivity() {
                 singleButton.visibility = View.INVISIBLE
             }
         }
+        cardButton.visibility = View.INVISIBLE
+
     }
 
     fun hundredButton (view: View) {
@@ -146,6 +148,8 @@ class GameActivity : AppCompatActivity() {
         hundredButton.visibility = View.INVISIBLE
         tenButton.visibility = View.INVISIBLE
         singleButton.visibility = View.INVISIBLE
+        cardButton.visibility = View.VISIBLE
+
 
     }
 
@@ -163,6 +167,7 @@ class GameActivity : AppCompatActivity() {
         hundredButton.visibility = View.INVISIBLE
         tenButton.visibility = View.INVISIBLE
         singleButton.visibility = View.INVISIBLE
+        cardButton.visibility = View.VISIBLE
 
         startEndAvtivity()
     }
@@ -180,6 +185,7 @@ class GameActivity : AppCompatActivity() {
         hundredButton.visibility = View.INVISIBLE
         tenButton.visibility = View.INVISIBLE
         singleButton.visibility = View.INVISIBLE
+        cardButton.visibility = View.VISIBLE
 
         startEndAvtivity()
     }

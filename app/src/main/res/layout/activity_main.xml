@@ -42,11 +42,16 @@
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
-        android:background="#73DD73"
+        android:background="@drawable/button"
+        android:fontFamily="casual"
         android:text="Starta"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player2Text" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
