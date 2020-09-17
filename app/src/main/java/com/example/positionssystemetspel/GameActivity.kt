@@ -23,6 +23,7 @@ class GameActivity : AppCompatActivity() {
     lateinit var tenText2: TextView
     lateinit var singleText1: TextView
     lateinit var singleText2: TextView
+    lateinit var cardBack: TextView
     var name1: String? = ""
     var name2: String? = ""
     var currentPlayer = 1
@@ -53,6 +54,7 @@ class GameActivity : AppCompatActivity() {
         tenText2 = findViewById(R.id.tenTextView2)
         singleText1 = findViewById(R.id.singleTextView)
         singleText2 = findViewById(R.id.singleTextView2)
+        cardBack = findViewById(R.id.numTextViewBack)
 
         instTextView.text = "$name1's tur, ta ett kort"
 
@@ -129,6 +131,7 @@ class GameActivity : AppCompatActivity() {
                 singleButton.visibility = View.INVISIBLE
             }
         }
+        cardBack.visibility = View.INVISIBLE
         cardButton.visibility = View.INVISIBLE
 
     }
@@ -145,10 +148,12 @@ class GameActivity : AppCompatActivity() {
         }
 
         startEndAvtivity()
+
         hundredButton.visibility = View.INVISIBLE
         tenButton.visibility = View.INVISIBLE
         singleButton.visibility = View.INVISIBLE
         cardButton.visibility = View.VISIBLE
+        cardBack.visibility = View.VISIBLE
 
 
     }
@@ -168,6 +173,7 @@ class GameActivity : AppCompatActivity() {
         tenButton.visibility = View.INVISIBLE
         singleButton.visibility = View.INVISIBLE
         cardButton.visibility = View.VISIBLE
+        cardBack.visibility = View.VISIBLE
 
         startEndAvtivity()
     }
@@ -186,6 +192,7 @@ class GameActivity : AppCompatActivity() {
         tenButton.visibility = View.INVISIBLE
         singleButton.visibility = View.INVISIBLE
         cardButton.visibility = View.VISIBLE
+        cardBack.visibility = View.VISIBLE
 
         startEndAvtivity()
     }
