@@ -21,7 +21,7 @@ class endActivity : AppCompatActivity() {
     }
     fun playAgain(view: View){
 
-        var intent = Intent(this, GameActivity::class.java)
+        val intent = Intent(this, GameActivity::class.java)
 
         startActivity(intent)
     }

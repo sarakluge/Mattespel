@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_game.*
 
 class GameActivity : AppCompatActivity() {
 
@@ -24,6 +26,7 @@ class GameActivity : AppCompatActivity() {
     lateinit var singleText1: TextView
     lateinit var singleText2: TextView
     lateinit var cardBack: TextView
+
     var name1: String? = ""
     var name2: String? = ""
     var currentPlayer = 1
@@ -38,10 +41,6 @@ class GameActivity : AppCompatActivity() {
 
         p1TextView = findViewById(R.id.textViewP1)
         p2TextView = findViewById(R.id.textViewP2)
-        name1 = intent.getStringExtra("player1Name")
-        name2 = intent.getStringExtra("player2Name")
-        p1TextView.text = name1
-        p2TextView.text = name2
         cardView = findViewById(R.id.numTextView)
         cardButton = findViewById(R.id.cardButton)
         instTextView = findViewById(R.id.instruktionTextView)
@@ -56,20 +55,51 @@ class GameActivity : AppCompatActivity() {
         singleText2 = findViewById(R.id.singleTextView2)
         cardBack = findViewById(R.id.numTextViewBack)
 
+        name1 = intent.getStringExtra("player1Name")
+        name2 = intent.getStringExtra("player2Name")
+        p1TextView.text = name1
+        p2TextView.text = name2
         instTextView.text = "$name1's tur, ta ett kort"
 
 
+
     }
-    fun startEndAvtivity() {
+
+    fun playAgain(view: View) {
+        val endFragment = supportFragmentManager.findFragmentByTag("endFragment")
+
+        if (endFragment != null) {
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.remove(endFragment)
+            transaction.commit()
+        }
+        playAgainButton.visibility = View.INVISIBLE
+        cardButton.visibility = View.VISIBLE
+        hundredText1.text = null
+        hundredText2.text = null
+        tenText1.text = null
+        tenText2.text = null
+        singleText1.text = null
+        singleText2.text = null
+
+    }
+
+    fun startEndFragment() {
         if(counter == 6){
             sumNumberP1()
             sumNumberP2()
-            val intent = Intent(this, endActivity::class.java)
 
-            intent.putExtra("winner", getWinner())
-            startActivity(intent)
+            cardButton.visibility = View.INVISIBLE
+
+            val endFragment = EndFragment.newInstance(getWinner())
+            val transaction = supportFragmentManager.beginTransaction()
+            transaction.add(R.id.container, endFragment, "endFragment")
+            transaction.commit()
+            playAgainButton.visibility = View.VISIBLE
+
         }
     }
+
     fun getWinner(): String{
         var winner = ""
         if(sumNumberP1() == sumNumberP2()) {
@@ -83,17 +113,17 @@ class GameActivity : AppCompatActivity() {
     }
 
     fun sumNumberP2(): Int{
-        var hundredInt2 = hundredText2.text.toString().toInt() * 100
-        var tenInt2 = tenText2.text.toString().toInt() * 10
-        var singleInt2 = hundredText2.text.toString().toInt()
+        val hundredInt2 = hundredText2.text.toString().toInt() * 100
+        val tenInt2 = tenText2.text.toString().toInt() * 10
+        val singleInt2 = hundredText2.text.toString().toInt()
         numberP2 = hundredInt2 + tenInt2 + singleInt2
         return numberP2
     }
 
     fun sumNumberP1(): Int{
-        var hundredInt1 = hundredText1.text.toString().toInt() * 100
-        var tenInt1 = tenText1.text.toString().toInt() * 10
-        var singleInt1 = hundredText1.text.toString().toInt()
+        val hundredInt1 = hundredText1.text.toString().toInt() * 100
+        val tenInt1 = tenText1.text.toString().toInt() * 10
+        val singleInt1 = hundredText1.text.toString().toInt()
         numberP1 = hundredInt1 + tenInt1 + singleInt1
         return numberP1
     }
@@ -147,15 +177,12 @@ class GameActivity : AppCompatActivity() {
             currentPlayer = 1
         }
 
-        startEndAvtivity()
-
         hundredButton.visibility = View.INVISIBLE
         tenButton.visibility = View.INVISIBLE
         singleButton.visibility = View.INVISIBLE
         cardButton.visibility = View.VISIBLE
         cardBack.visibility = View.VISIBLE
-
-
+        startEndFragment()
     }
 
     fun tenButton (view: View) {
@@ -169,13 +196,13 @@ class GameActivity : AppCompatActivity() {
             currentPlayer = 1
             instTextView.text = "$name1's tur, ta ett kort"
         }
+
         hundredButton.visibility = View.INVISIBLE
         tenButton.visibility = View.INVISIBLE
         singleButton.visibility = View.INVISIBLE
         cardButton.visibility = View.VISIBLE
         cardBack.visibility = View.VISIBLE
-
-        startEndAvtivity()
+        startEndFragment()
     }
 
     fun singleButton(view: View) {
@@ -188,12 +215,12 @@ class GameActivity : AppCompatActivity() {
             currentPlayer = 1
             instTextView.text = "$name1's tur, ta ett kort"
         }
+
         hundredButton.visibility = View.INVISIBLE
         tenButton.visibility = View.INVISIBLE
         singleButton.visibility = View.INVISIBLE
         cardButton.visibility = View.VISIBLE
         cardBack.visibility = View.VISIBLE
-
-        startEndAvtivity()
+        startEndFragment()
     }
 }
