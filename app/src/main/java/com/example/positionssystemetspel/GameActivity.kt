@@ -38,6 +38,7 @@ class GameActivity : AppCompatActivity() {
     var numberP2 = 0
     var score1 = 0
     var score2 = 0
+    var players = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,12 +65,16 @@ class GameActivity : AppCompatActivity() {
 
         name1 = intent.getStringExtra("player1Name")
         name2 = intent.getStringExtra("player2Name")
-        p1TextView.text = name1
-        p2TextView.text = name2
+        players = intent.getIntExtra("players", 1)
         instTextView.text = "$name1's tur, ta ett kort"
 
-
-
+        if(players == 1){
+            p1TextView.text = "Sally"
+            p2TextView.text = name2
+        } else {
+            p1TextView.text = name1
+            p2TextView.text = name2
+        }
     }
 
     fun playAgain(view: View) {

@@ -7,19 +7,34 @@
     android:background="#252524"
     tools:context=".MainActivity">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="125dp"
+        android:fontFamily="@font/lostandfound"
+        android:text="Välj antal spelare"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="34sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/player1Text"
         android:layout_width="295dp"
         android:layout_height="60dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="200dp"
+        android:backgroundTint="#FFFFFF"
         android:ems="10"
         android:fontFamily="@font/lostandfound"
         android:hint="Namn"
-        android:textColorHint="#A39F9F"
         android:inputType="textPersonName"
         android:textColor="#FFFFFF"
+        android:textColorHint="#A39F9F"
         android:textSize="30dp"
-        android:backgroundTint="#FFFFFF"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,14 +44,15 @@
         android:layout_width="300dp"
         android:layout_height="60dp"
         android:layout_marginTop="10dp"
+        android:backgroundTint="#FFFFFF"
         android:ems="10"
         android:fontFamily="@font/lostandfound"
         android:hint="Namn"
-        android:textColorHint="#A39F9F"
         android:inputType="textPersonName"
         android:textColor="#FFFFFF"
+        android:textColorHint="#A39F9F"
         android:textSize="30dp"
-        android:backgroundTint="#FFFFFF"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player1Text" />
@@ -52,10 +68,42 @@
         android:textColor="#000000"
         android:textSize="30sp"
         android:textStyle="bold"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/player2Text" />
 
+    <Button
+        android:id="@+id/onePlayerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:background="@drawable/button"
+        android:fontFamily="@font/lostandfound"
+        android:onClick="onePlayer"
+        android:text="1 spelare"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/twoPlayerButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/twoPlayerButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/button"
+        android:fontFamily="@font/lostandfound"
+        android:onClick="twoPlayer"
+        android:text="2 spelare"
+        android:textAllCaps="false"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBaseline_toBaselineOf="@+id/onePlayerButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/onePlayerButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
