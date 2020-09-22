@@ -66,15 +66,18 @@ class GameActivity : AppCompatActivity() {
         name1 = intent.getStringExtra("player1Name")
         name2 = intent.getStringExtra("player2Name")
         players = intent.getIntExtra("players", 1)
-        instTextView.text = "$name1's tur, ta ett kort"
-
-        if(players == 1){
-            p1TextView.text = "Sally"
-            p2TextView.text = name2
-        } else {
-            p1TextView.text = name1
-            p2TextView.text = name2
+        if(players == 1) {
+            name1 = "computer"
         }
+        instTextView.text = "$name1's tur, ta ett kort"
+        p1TextView.text = name1
+        p2TextView.text = name2
+
+
+
+        startComputerPlayer()
+
+
     }
 
     fun playAgain(view: View) {
@@ -95,7 +98,28 @@ class GameActivity : AppCompatActivity() {
         singleText2.text = null
         getPoints()
         counter = 0
+    }
 
+    fun startComputerPlayer() {
+        if(players == 1){
+            random = (0..9).random()
+            val firstNum = random
+            if(random < 5) {
+                singleText1.text = random.toString()
+            }else if(random < 8) {
+                tenText1.text = random.toString()
+            }else {
+                hundredText1.text = random.toString()
+            }
+        }
+        currentPlayer = 2
+        counter++
+    }
+
+    fun secondTurnCumputer() {
+        if(counter == 2) {
+            random = (0..9).random()
+        }
     }
 
     fun startEndFragment() {
