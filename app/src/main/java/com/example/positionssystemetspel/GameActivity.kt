@@ -26,6 +26,8 @@ class GameActivity : AppCompatActivity() {
     lateinit var singleText1: TextView
     lateinit var singleText2: TextView
     lateinit var cardBack: TextView
+    lateinit var scoreView1: TextView
+    lateinit var scoreView2: TextView
 
     var name1: String? = ""
     var name2: String? = ""
@@ -34,6 +36,9 @@ class GameActivity : AppCompatActivity() {
     var random = 0
     var numberP1 = 0
     var numberP2 = 0
+    var score1 = 0
+    var score2 = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +59,8 @@ class GameActivity : AppCompatActivity() {
         singleText1 = findViewById(R.id.singleTextView)
         singleText2 = findViewById(R.id.singleTextView2)
         cardBack = findViewById(R.id.numTextViewBack)
+        scoreView1 = findViewById(R.id.score1)
+        scoreView2 = findViewById(R.id.score2)
 
         name1 = intent.getStringExtra("player1Name")
         name2 = intent.getStringExtra("player2Name")
@@ -81,6 +88,8 @@ class GameActivity : AppCompatActivity() {
         tenText2.text = null
         singleText1.text = null
         singleText2.text = null
+        getPoints()
+        counter = 0
 
     }
 
@@ -100,14 +109,23 @@ class GameActivity : AppCompatActivity() {
         }
     }
 
+    fun getPoints() {
+        scoreView1.text = "Poäng: $score1"
+        scoreView2.text = "Poäng: $score2"
+    }
+
     fun getWinner(): String{
         var winner = ""
         if(sumNumberP1() == sumNumberP2()) {
             winner = "Det blev oavgjort"
+            score1 ++
+            score2 ++
         } else if(sumNumberP1() > sumNumberP2()) {
             winner = "$name1 vann denna omgång"
+            score1 ++
         } else if(sumNumberP1() < sumNumberP2()) {
             winner = "$name2 vann denna omgång"
+            score2 ++
         }
         return winner
     }
