@@ -1,9 +1,11 @@
 package com.example.positionssystemetspel
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 
@@ -12,6 +14,7 @@ private const val ARG_PARAM1 = "param1"
 class EndFragment : Fragment() {
 
     private var param1: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
@@ -19,6 +22,7 @@ class EndFragment : Fragment() {
         }
     }
 
+    var startOverButton: Button? = null
     var winnerText: TextView? = null
 
     override fun onCreateView(
@@ -26,12 +30,18 @@ class EndFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?): View? {
 
-
         val view = inflater.inflate(R.layout.fragment_end, container, false)
         winnerText = view.findViewById(R.id.winnerText)
+        startOverButton = view.findViewById(R.id.startOverButton)
         winnerText?.text = param1
+
+
         return view
+
+
     }
+
+
 
     companion object {
         /**
@@ -51,7 +61,6 @@ class EndFragment : Fragment() {
                 }
             }
     }
-
 
 
 

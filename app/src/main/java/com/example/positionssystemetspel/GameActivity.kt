@@ -3,6 +3,7 @@ package com.example.positionssystemetspel
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.TextView
@@ -67,17 +68,13 @@ class GameActivity : AppCompatActivity() {
         name2 = intent.getStringExtra("player2Name")
         players = intent.getIntExtra("players", 1)
         if(players == 1) {
-            name1 = "computer"
+            name1 = "Kurre"
         }
         instTextView.text = "$name1's tur, ta ett kort"
         p1TextView.text = name1
         p2TextView.text = name2
 
-
-
         startComputerPlayer()
-
-
     }
 
     fun playAgain(view: View) {
@@ -90,14 +87,15 @@ class GameActivity : AppCompatActivity() {
         }
         playAgainButton.visibility = View.INVISIBLE
         cardButton.visibility = View.VISIBLE
-        hundredText1.text = null
-        hundredText2.text = null
-        tenText1.text = null
-        tenText2.text = null
-        singleText1.text = null
-        singleText2.text = null
+        hundredText1.text = ""
+        hundredText2.text = ""
+        tenText1.text = ""
+        tenText2.text = ""
+        singleText1.text = ""
+        singleText2.text = ""
         getPoints()
         counter = 0
+        startComputerPlayer()
     }
 
     fun startComputerPlayer() {
@@ -111,14 +109,67 @@ class GameActivity : AppCompatActivity() {
             }else {
                 hundredText1.text = random.toString()
             }
+            currentPlayer = 2
+            counter++
+            instTextView.text = "$name2's tur, ta ett kort"
         }
-        currentPlayer = 2
-        counter++
+
     }
 
     fun secondTurnCumputer() {
-        if(counter == 2) {
-            random = (0..9).random()
+        Log.d("!!!", "second")
+
+        if(players == 1) {
+            if (counter == 2) {
+                random = (0..9).random()
+
+                if(random < 5) {
+                    if(singleText1.text == "") {
+                        singleText1.text = random.toString()
+                    }else if(tenText1.text == "") {
+                        tenText1.text = random.toString()
+                    }else {
+                        hundredText1.text = random.toString()
+                    }
+                }else if(random < 8) {
+                    if(tenText1.text == "") {
+                        tenText1.text = random.toString()
+                    }else if(hundredText1.text == "") {
+                        hundredText1.text = random.toString()
+                    }else {
+                        singleText1.text = random.toString()
+                    }
+                }else {
+
+                    if(hundredText1.text == "") {
+                        hundredText1.text = random.toString()
+                    }else if(tenText1.text == "") {
+                        tenText1.text = random.toString()
+                    }else {
+                        singleText1.text = random.toString()
+                    }
+                }
+            }
+            counter++
+            currentPlayer = 2
+            instTextView.text = "$name2's tur, ta ett kort"
+        }
+    }
+
+    fun thirdTurnCumputer() {
+        if (players == 1) {
+            if (counter == 5) {
+                random = (0..9).random()
+                if (hundredText1.text == "") {
+                    hundredText1.text = random.toString()
+                } else if (tenText1.text == "") {
+                    tenText1.text = random.toString()
+                } else {
+                    singleText1.text = random.toString()
+                }
+                currentPlayer = 2
+                instTextView.text = "$name2's tur, ta ett kort"
+            }
         }
     }
 
@@ -230,6 +281,8 @@ class GameActivity : AppCompatActivity() {
         cardButton.visibility = View.VISIBLE
         cardBack.visibility = View.VISIBLE
         startEndFragment()
+        secondTurnCumputer()
+        thirdTurnCumputer()
     }
 
     fun tenButton (view: View) {
@@ -250,6 +303,8 @@ class GameActivity : AppCompatActivity() {
         cardButton.visibility = View.VISIBLE
         cardBack.visibility = View.VISIBLE
         startEndFragment()
+        secondTurnCumputer()
+        thirdTurnCumputer()
     }
 
     fun singleButton(view: View) {
@@ -269,5 +324,11 @@ class GameActivity : AppCompatActivity() {
         cardButton.visibility = View.VISIBLE
         cardBack.visibility = View.VISIBLE
         startEndFragment()
+        secondTurnCumputer()
+        thirdTurnCumputer()
+    }
+
+    fun startOver(view: View) {
+        finish()
     }
 }

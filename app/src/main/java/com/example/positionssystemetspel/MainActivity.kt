@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 
 
@@ -18,6 +19,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var onePlayerButton: Button
     lateinit var twoPlayerButton: Button
     lateinit var textView: TextView
+    lateinit var image: ImageView
+    lateinit var speechBubble: TextView
     var players = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,11 +33,37 @@ class MainActivity : AppCompatActivity() {
         player1 = findViewById(R.id.player1Text)
         player2 = findViewById(R.id.player2Text)
         textView = findViewById(R.id.textView)
+        image = findViewById(R.id.squirrelImage)
+        speechBubble = findViewById(R.id.speechBubble)
+
 
         startButton.setOnClickListener {
             startGameActivity()
             Log.d("!!!", "knappen trycktes")
         }
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        textView.visibility = View.VISIBLE
+        onePlayerButton.visibility = View.VISIBLE
+        twoPlayerButton.visibility = View.VISIBLE
+        player1.visibility = View.INVISIBLE
+        player2.visibility = View.INVISIBLE
+        player1.text = null
+        player2.text = null
+        startButton.visibility = View.INVISIBLE
+        image.isClickable = true
+    }
+
+
+    fun showInstruktion(view: View) {
+        if(speechBubble.visibility == View.INVISIBLE){
+            speechBubble.visibility = View.VISIBLE
+        }else{
+            speechBubble.visibility = View.INVISIBLE
+        }
+
     }
 
     fun onePlayer(view: View) {
@@ -44,6 +73,8 @@ class MainActivity : AppCompatActivity() {
         twoPlayerButton.visibility = View.INVISIBLE
         textView.visibility = View.INVISIBLE
         players = 1
+        speechBubble.visibility = View.INVISIBLE
+        image.isClickable = false
 
     }
 
@@ -55,6 +86,9 @@ class MainActivity : AppCompatActivity() {
         twoPlayerButton.visibility = View.INVISIBLE
         textView.visibility = View.INVISIBLE
         players = 2
+        speechBubble.visibility = View.INVISIBLE
+        image.isClickable = false
+
     }
 
     fun startGameActivity() {
