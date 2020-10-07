@@ -35,13 +35,8 @@ class EndFragment : Fragment() {
         startOverButton = view.findViewById(R.id.startOverButton)
         winnerText?.text = param1
 
-
         return view
-
-
     }
-
-
 
     companion object {
         /**
@@ -61,7 +56,4 @@ class EndFragment : Fragment() {
                 }
             }
     }
-
-
-
 }

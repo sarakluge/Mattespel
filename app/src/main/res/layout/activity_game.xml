@@ -219,10 +219,10 @@
         android:id="@+id/singleTextView"
         android:layout_width="58dp"
         android:layout_height="68dp"
-        android:background="#8BC3E8"
+        android:background="@color/blue"
+        android:fontFamily="@font/lostandfound"
         android:textAlignment="center"
         android:textSize="30sp"
-        android:fontFamily="@font/lostandfound"
         app:autoSizeTextType="uniform"
         app:layout_constraintBaseline_toBaselineOf="@+id/tenTextView1"
         app:layout_constraintStart_toEndOf="@+id/tenTextView1" />
@@ -286,6 +286,8 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/view2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0" >
+
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
