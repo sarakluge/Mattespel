@@ -63,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
 
 
+
         //startButton.setOnClickListener {
          //   startGameActivity()
          //   Log.d("!!!", "knappen trycktes")
