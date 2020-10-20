@@ -28,16 +28,8 @@ class MainActivity : AppCompatActivity() {
     lateinit var twoPlayerButton: Button
     lateinit var image: ImageView
     lateinit var recyclerView: RecyclerView
-    lateinit var sharedPreferences: SharedPreferences
 
     var players = 0
-    var playersHighScoreList = listOf<Player>(Player("Sara", 324),
-        Player("Andreas", 326),
-        Player("My", 898),
-        Player("Ludwig", 499),
-        Player("Moa", 543),
-        Player("Hedvig", 752),
-        Player("Ted", 524))
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,20 +46,14 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.highScoreRecyclerView)
         highScoreTextView = findViewById(R.id.textViewhighScore)
 
-        sharedPreferences = this.getSharedPreferences("sara", Context.MODE_PRIVATE)
-
-        sharedPreferences.edit().putString("whiteboard", "sara").apply()
-
         recyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter = HighScoreAdapter(this, playersHighScoreList)
+        val adapter = HighScoreAdapter(this, DataManager.players)
         recyclerView.adapter = adapter
+    }
 
-
-
-        //startButton.setOnClickListener {
-         //   startGameActivity()
-         //   Log.d("!!!", "knappen trycktes")
-       // }
+    override fun onResume() {
+        super.onResume()
+        recyclerView.adapter?.notifyDataSetChanged()
     }
 
     override fun onRestart() {
@@ -111,6 +97,7 @@ class MainActivity : AppCompatActivity() {
         textView.visibility = View.INVISIBLE
         speechBubble.visibility = View.INVISIBLE
         recyclerView.visibility = View.INVISIBLE
+        highScoreTextView.visibility = View.INVISIBLE
 
         image.isClickable = false
     }
@@ -126,6 +113,7 @@ class MainActivity : AppCompatActivity() {
         textView.visibility = View.INVISIBLE
         speechBubble.visibility = View.INVISIBLE
         recyclerView.visibility = View.INVISIBLE
+        highScoreTextView.visibility = View.INVISIBLE
 
         image.isClickable = false
     }

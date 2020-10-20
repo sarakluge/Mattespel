@@ -189,29 +189,13 @@
         android:layout_height="143dp"
         android:layout_margin="4dp"
         android:layout_marginTop="16dp"
-        android:background="@drawable/card_front"
-        android:fontFamily="@font/lostandfound"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="110sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view" />
-
-    <TextView
-        android:id="@+id/numTextViewBack"
-        android:layout_width="106dp"
-        android:layout_height="143dp"
-        android:layout_margin="4dp"
-        android:layout_marginTop="4dp"
         android:background="@drawable/card_back"
         android:fontFamily="@font/lostandfound"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="110sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 

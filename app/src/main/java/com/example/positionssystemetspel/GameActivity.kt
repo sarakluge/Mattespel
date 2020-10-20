@@ -1,13 +1,17 @@
 package com.example.positionssystemetspel
 
-import android.content.Intent
+import android.animation.AnimatorInflater
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.TextView
-import android.widget.Toast
+import androidx.core.animation.doOnEnd
+import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_game.*
 
 class GameActivity : AppCompatActivity() {
@@ -26,10 +30,10 @@ class GameActivity : AppCompatActivity() {
     lateinit var tenText2: TextView
     lateinit var singleText1: TextView
     lateinit var singleText2: TextView
-    lateinit var cardBack: TextView
     lateinit var scoreView1: TextView
     lateinit var scoreView2: TextView
 
+    var isFront = false
     var name1: String? = ""
     var name2: String? = ""
     var currentPlayer = 1
@@ -41,10 +45,10 @@ class GameActivity : AppCompatActivity() {
     var score2 = 0
     var players = 0
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
+
 
         p1TextView = findViewById(R.id.textViewP1)
         p2TextView = findViewById(R.id.textViewP2)
@@ -60,9 +64,11 @@ class GameActivity : AppCompatActivity() {
         tenText2 = findViewById(R.id.tenTextView2)
         singleText1 = findViewById(R.id.singleTextView)
         singleText2 = findViewById(R.id.singleTextView2)
-        cardBack = findViewById(R.id.numTextViewBack)
         scoreView1 = findViewById(R.id.score1)
         scoreView2 = findViewById(R.id.score2)
+
+        val scale = applicationContext.resources.displayMetrics.density
+        cardView.cameraDistance = 8000 * scale
 
         name1 = intent.getStringExtra("player1Name")
         name2 = intent.getStringExtra("player2Name")
@@ -70,12 +76,69 @@ class GameActivity : AppCompatActivity() {
         if(players == 1) {
             name1 = "Kurre"
         }
-        instTextView.text = "$name1's tur, ta ett kort"
+
+
         p1TextView.text = name1
+        if(p1TextView.text == "") {
+            p1TextView.text = "spelare 1"
+        }
+
         p2TextView.text = name2
+        if(p2TextView.text == "") {
+            p2TextView.text = "spelare 2"
+        }
+        instTextView.text = "${p1TextView.text}'s tur, ta ett kort"
 
         startComputerPlayer()
     }
+
+    fun flipCardAnim(cardText: String) {
+        if(isFront) {
+            val flip90 = ObjectAnimator.ofFloat(cardView, View.ROTATION_Y, 0f, 90f).apply {
+                interpolator = DecelerateInterpolator()
+                duration = 500
+                doOnEnd {
+                    cardView.background = ContextCompat.getDrawable(this@GameActivity, R.drawable.card_back)
+                    cardView.text = ""
+                }
+            }
+
+            val flip180 = ObjectAnimator.ofFloat(cardView, View.ROTATION_Y, 90f, 0f).apply {
+                interpolator = DecelerateInterpolator()
+                duration = 500
+            }
+
+            AnimatorSet().apply {
+                playSequentially(flip90, flip180)
+            }.start()
+
+            isFront = false
+
+        } else {
+
+            val flip90 = ObjectAnimator.ofFloat(cardView, View.ROTATION_Y, 0f, 90f).apply {
+                interpolator = DecelerateInterpolator()
+                duration = 500
+                doOnEnd {
+                    cardView.background = ContextCompat.getDrawable(this@GameActivity, R.drawable.card_front)
+                    cardView.text = cardText
+                }
+            }
+
+            val flip180 = ObjectAnimator.ofFloat(cardView, View.ROTATION_Y, 90f, 0f).apply {
+                interpolator = DecelerateInterpolator()
+                duration = 500
+            }
+
+            AnimatorSet().apply {
+                playSequentially(flip90, flip180)
+            }.start()
+
+            isFront = true
+        }
+
+    }
+
 
     fun playAgain(view: View) {
         val endFragment = supportFragmentManager.findFragmentByTag("endFragment")
@@ -98,10 +161,22 @@ class GameActivity : AppCompatActivity() {
         startComputerPlayer()
     }
 
+    fun addPlayers(){
+        if(players == 1) {
+            val player = Player(p2TextView.text.toString(), numberP2)
+            DataManager.players.add(player)
+        }else if (players == 2) {
+            val player1 = Player(p1TextView.text.toString(), numberP1)
+            val player2 = Player(p2TextView.text.toString(), numberP2)
+
+            DataManager.players.add(player1)
+            DataManager.players.add(player2)
+        }
+    }
+
     fun startComputerPlayer() {
         if(players == 1){
             random = (0..9).random()
-            val firstNum = random
             if(random < 5) {
                 singleText1.text = random.toString()
             }else if(random < 8) {
@@ -111,7 +186,7 @@ class GameActivity : AppCompatActivity() {
             }
             currentPlayer = 2
             counter++
-            instTextView.text = "$name2's tur, ta ett kort"
+            instTextView.text = "${p2TextView.text}'s tur, ta ett kort"
         }
 
     }
@@ -152,7 +227,7 @@ class GameActivity : AppCompatActivity() {
             }
             counter++
             currentPlayer = 2
-            instTextView.text = "$name2's tur, ta ett kort"
+            instTextView.text = "${p2TextView.text}'s tur, ta ett kort"
         }
     }
 
@@ -168,7 +243,7 @@ class GameActivity : AppCompatActivity() {
                     singleText1.text = random.toString()
                 }
                 currentPlayer = 2
-                instTextView.text = "$name2's tur, ta ett kort"
+                instTextView.text = "${p2TextView.text}'s tur, ta ett kort"
             }
         }
     }
@@ -177,6 +252,7 @@ class GameActivity : AppCompatActivity() {
         if(counter == 6){
             sumNumberP1()
             sumNumberP2()
+            addPlayers()
 
             cardButton.visibility = View.INVISIBLE
 
@@ -201,10 +277,10 @@ class GameActivity : AppCompatActivity() {
             score1 ++
             score2 ++
         } else if(sumNumberP1() > sumNumberP2()) {
-            winner = "$name1 vann denna omgång"
+            winner = "${p1TextView.text} vann denna omgång"
             score1 ++
         } else if(sumNumberP1() < sumNumberP2()) {
-            winner = "$name2 vann denna omgång"
+            winner = "${p2TextView.text} vann denna omgång"
             score2 ++
         }
         return winner
@@ -230,7 +306,7 @@ class GameActivity : AppCompatActivity() {
     fun cardButtonPressed (view: View) {
         counter ++
         random = (0..9).random()
-        cardView.text = random.toString()
+        flipCardAnim(random.toString())
         instTextView.text = "Välj vilken plats siffran ska ha"
 
         hundredButton.visibility = View.VISIBLE
@@ -259,19 +335,19 @@ class GameActivity : AppCompatActivity() {
                 singleButton.visibility = View.INVISIBLE
             }
         }
-        cardBack.visibility = View.INVISIBLE
         cardButton.visibility = View.INVISIBLE
 
     }
 
     fun hundredButton (view: View) {
+        flipCardAnim("")
         if(currentPlayer == 1) {
             hundredText1.text = random.toString()
-            instTextView.text = "$name2's tur, ta ett kort"
+            instTextView.text = "${p2TextView.text}'s tur, ta ett kort"
             currentPlayer = 2
         } else if(currentPlayer == 2){
             hundredText2.text = random.toString()
-            instTextView.text = "$name1's tur, ta ett kort"
+            instTextView.text = "${p1TextView.text}'s tur, ta ett kort"
             currentPlayer = 1
         }
 
@@ -279,50 +355,49 @@ class GameActivity : AppCompatActivity() {
         tenButton.visibility = View.INVISIBLE
         singleButton.visibility = View.INVISIBLE
         cardButton.visibility = View.VISIBLE
-        cardBack.visibility = View.VISIBLE
         startEndFragment()
         secondTurnCumputer()
         thirdTurnCumputer()
     }
 
     fun tenButton (view: View) {
+        flipCardAnim("")
         if(currentPlayer == 1) {
             tenText1.text = random.toString()
             currentPlayer = 2
-            instTextView.text = "$name2's tur, ta ett kort"
+            instTextView.text = "${p2TextView.text}'s tur, ta ett kort"
 
         } else {
             tenText2.text = random.toString()
             currentPlayer = 1
-            instTextView.text = "$name1's tur, ta ett kort"
+            instTextView.text = "${p1TextView.text}'s tur, ta ett kort"
         }
 
         hundredButton.visibility = View.INVISIBLE
         tenButton.visibility = View.INVISIBLE
         singleButton.visibility = View.INVISIBLE
         cardButton.visibility = View.VISIBLE
-        cardBack.visibility = View.VISIBLE
         startEndFragment()
         secondTurnCumputer()
         thirdTurnCumputer()
     }
 
     fun singleButton(view: View) {
+        flipCardAnim("")
         if(currentPlayer == 1) {
             singleText1.text = random.toString()
-            instTextView.text = "$name2's tur, ta ett kort"
+            instTextView.text = "${p2TextView.text}'s tur, ta ett kort"
             currentPlayer = 2
         } else {
             singleText2.text = random.toString()
             currentPlayer = 1
-            instTextView.text = "$name1's tur, ta ett kort"
+            instTextView.text = "${p1TextView.text}'s tur, ta ett kort"
         }
 
         hundredButton.visibility = View.INVISIBLE
         tenButton.visibility = View.INVISIBLE
         singleButton.visibility = View.INVISIBLE
         cardButton.visibility = View.VISIBLE
-        cardBack.visibility = View.VISIBLE
         startEndFragment()
         secondTurnCumputer()
         thirdTurnCumputer()
