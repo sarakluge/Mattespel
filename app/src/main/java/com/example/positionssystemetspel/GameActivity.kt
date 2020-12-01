@@ -1,6 +1,5 @@
 package com.example.positionssystemetspel
 
-import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.animation.ObjectAnimator
 import androidx.appcompat.app.AppCompatActivity
@@ -13,43 +12,56 @@ import android.widget.TextView
 import androidx.core.animation.doOnEnd
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_game.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
-class GameActivity : AppCompatActivity() {
 
-    lateinit var p1TextView: TextView
-    lateinit var p2TextView: TextView
-    lateinit var instTextView: TextView
-    lateinit var cardView: TextView
-    lateinit var cardButton: Button
-    lateinit var hundredButton: Button
-    lateinit var tenButton: Button
-    lateinit var singleButton: Button
-    lateinit var hundredText1: TextView
-    lateinit var hundredText2: TextView
-    lateinit var tenText1: TextView
-    lateinit var tenText2: TextView
-    lateinit var singleText1: TextView
-    lateinit var singleText2: TextView
-    lateinit var scoreView1: TextView
-    lateinit var scoreView2: TextView
+class GameActivity : AppCompatActivity(), CoroutineScope {
 
-    var isFront = false
-    var name1: String? = ""
-    var name2: String? = ""
-    var currentPlayer = 1
-    var counter = 0
-    var random = 0
-    var numberP1 = 0
-    var numberP2 = 0
-    var score1 = 0
-    var score2 = 0
-    var players = 0
+    private lateinit var job: Job
+    override val coroutineContext: CoroutineContext
+    get() = Dispatchers.Main + job
+
+    private lateinit var p1TextView: TextView
+    private lateinit var p2TextView: TextView
+    private lateinit var instTextView: TextView
+    private lateinit var cardView: TextView
+    private lateinit var cardButton: Button
+    private lateinit var hundredButton: Button
+    private lateinit var tenButton: Button
+    private lateinit var singleButton: Button
+    private lateinit var hundredText1: TextView
+    private lateinit var hundredText2: TextView
+    private lateinit var tenText1: TextView
+    private lateinit var tenText2: TextView
+    private lateinit var singleText1: TextView
+    private lateinit var singleText2: TextView
+    private lateinit var scoreView1: TextView
+    private lateinit var scoreView2: TextView
+    private lateinit var db: AppDatabase
+
+    private var isFront = false
+    private var name1: String? = ""
+    private var name2: String? = ""
+    private var currentPlayer = 1
+    private var counter = 0
+    private var random = 0
+    private var numberP1 = 0
+    private var numberP2 = 0
+    private var score1 = 0
+    private var score2 = 0
+    private var players = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_game)
 
 
+        job = Job()
+        
         p1TextView = findViewById(R.id.textViewP1)
         p2TextView = findViewById(R.id.textViewP2)
         cardView = findViewById(R.id.numTextView)
@@ -66,6 +78,9 @@ class GameActivity : AppCompatActivity() {
         singleText2 = findViewById(R.id.singleTextView2)
         scoreView1 = findViewById(R.id.score1)
         scoreView2 = findViewById(R.id.score2)
+
+
+        db = AppDatabase.getInstance(this)
 
         val scale = applicationContext.resources.displayMetrics.density
         cardView.cameraDistance = 8000 * scale
@@ -92,7 +107,7 @@ class GameActivity : AppCompatActivity() {
         startComputerPlayer()
     }
 
-    fun flipCardAnim(cardText: String) {
+    private fun flipCardAnim(cardText: String) {
         if(isFront) {
             val flip90 = ObjectAnimator.ofFloat(cardView, View.ROTATION_Y, 0f, 90f).apply {
                 interpolator = DecelerateInterpolator()
@@ -163,14 +178,20 @@ class GameActivity : AppCompatActivity() {
 
     fun addPlayers(){
         if(players == 1) {
-            val player = Player(p2TextView.text.toString(), numberP2)
-            DataManager.players.add(player)
+            val player = Player(0, p2TextView.text.toString(), numberP2)
+            launch(Dispatchers.IO) {
+            db.playerDao.insert(player)
+        }
+            //DataManager.players.add(player)
         }else if (players == 2) {
-            val player1 = Player(p1TextView.text.toString(), numberP1)
-            val player2 = Player(p2TextView.text.toString(), numberP2)
-
-            DataManager.players.add(player1)
-            DataManager.players.add(player2)
+            val player1 = Player(0, p1TextView.text.toString(), numberP1)
+            val player2 = Player(0, p2TextView.text.toString(), numberP2)
+            launch(Dispatchers.IO) {
+            db.playerDao.insert(player1)
+            db.playerDao.insert(player2)
+        }
+            // DataManager.players.add(player1)
+            //DataManager.players.add(player2)
         }
     }
 

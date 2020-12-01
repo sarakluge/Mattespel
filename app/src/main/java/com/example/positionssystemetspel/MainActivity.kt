@@ -1,8 +1,6 @@
 package com.example.positionssystemetspel
 
-import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -13,10 +11,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.*
+import kotlin.coroutines.CoroutineContext
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CoroutineScope {
+
+    private lateinit var job: Job
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
 
     lateinit var highScoreTextView: TextView
     lateinit var textView: TextView
@@ -28,12 +31,15 @@ class MainActivity : AppCompatActivity() {
     lateinit var twoPlayerButton: Button
     lateinit var image: ImageView
     lateinit var recyclerView: RecyclerView
-
+    lateinit var db: AppDatabase
     var players = 0
+    var playerList: PlayerList? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        job = Job()
 
         startButton = findViewById(R.id.startButton)
         onePlayerButton = findViewById(R.id.onePlayerButton)
@@ -46,10 +52,38 @@ class MainActivity : AppCompatActivity() {
         recyclerView = findViewById(R.id.highScoreRecyclerView)
         highScoreTextView = findViewById(R.id.textViewhighScore)
 
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        val adapter = HighScoreAdapter(this, DataManager.players)
-        recyclerView.adapter = adapter
+        db = AppDatabase.getInstance(this)
+
+        loadAllPlayers()
+
+
+
+
     }
+
+    fun setAdapter() {
+        if(playerList != null) {
+            recyclerView.layoutManager = LinearLayoutManager(this)
+            val adapter = HighScoreAdapter(this, playerList!!)
+            recyclerView.adapter = adapter
+        }
+    }
+
+    fun loadAllPlayers() {
+        val player = async(Dispatchers.IO) {
+            db.playerDao.getAll()
+        }
+        launch {
+            val list = player.await().toMutableList()
+
+            playerList = PlayerList(list)
+            setAdapter()
+
+            Log.d("!!!", "${list.size}")
+        }
+
+    }
+
 
     override fun onResume() {
         super.onResume()

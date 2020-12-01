@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class HighScoreAdapter(val context: Context, val players: List<Player>): RecyclerView.Adapter<HighScoreAdapter.ViewHolder>() {
+class HighScoreAdapter(val context: Context, val players: PlayerList): RecyclerView.Adapter<HighScoreAdapter.ViewHolder>() {
 
     val layoutInflater = LayoutInflater.from(context)
 
     override fun getItemCount(): Int {
-        return players.size
+        //return players.size
+        return players.players.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -22,8 +23,8 @@ class HighScoreAdapter(val context: Context, val players: List<Player>): Recycle
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.nameTextView.text = players[position].name
-        holder.scoreTextView.text = players[position].score.toString()
+        holder.nameTextView.text = players.players[position].name
+        holder.scoreTextView.text = players.players[position].score.toString()
     }
 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
